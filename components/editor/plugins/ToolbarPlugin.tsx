@@ -19,6 +19,7 @@ import {
   REDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
+  LexicalNode,
 } from 'lexical';
 import {
   $createHeadingNode,
@@ -73,7 +74,7 @@ export default function ToolbarPlugin() {
       }),
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
-        (_payload, _newEditor) => {
+        () => {
           $updateToolbar();
           return false;
         },
@@ -269,7 +270,7 @@ function useActiveBlock() {
       let element =
         anchor.getKey() === 'root'
           ? anchor
-          : $findMatchingParent(anchor, (e) => {
+          : $findMatchingParent(anchor as LexicalNode, (e) => {
               const parent = e.getParent();
               return parent !== null && $isRootOrShadowRoot(parent);
             });
